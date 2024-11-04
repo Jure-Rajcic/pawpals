@@ -1,4 +1,11 @@
-<div class="relative h-screen overflow-hidden bg-white">
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-hello-world',
+  standalone: true,
+  imports: [],
+  template: `
+  <!-- <div class="relative h-screen overflow-hidden bg-white">
   <svg class="border-2 border-blue-400" xmlns="http://www.w3.org/2000/svg" width="100%" h="400px" viewBox="0 0 1000 1000" preserveAspectRatio="none">
     <defs>
       <linearGradient id="myGradient" gradientTransform="rotate(45)">
@@ -22,4 +29,27 @@
     <button type="button" class="btn btn-light">Light</button>
 
   </div>
-</div>
+</div> -->
+<h1 class="text-6xl font-bold">Hello World</h1>
+`,
+  styles: [`
+  @keyframes bend {
+    0% {
+      d: path('M0,50 C25,0 75,100 100,50 L100,100 L0,100 Z');
+    }
+    50% {
+      d: path('M0,50 C25,50 75,50 100,50 L100,100 L0,100 Z');
+    }
+    100% {
+      d: path('M0,50 C25,0 75,100 100,50 L100,100 L0,100 Z');
+    }
+  }
+  
+  .animated-curve {
+    animation: bend 3s ease-in-out infinite;
+  }
+  `]
+})
+export class HelloWorldComponent {
+
+}
