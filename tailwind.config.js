@@ -16,6 +16,10 @@ module.exports = {
         'xl': '1200px',       // Extra large screens
         'xxl': '1400px',      // Extra extra large screens (Bootstrap 5)
       },
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+        raleway: ['Raleway', 'sans-serif'],
+      },
     },
   },
   plugins: [],
