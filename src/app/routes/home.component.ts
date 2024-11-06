@@ -1,10 +1,12 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, importProvidersFrom } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition, query, group } from '@angular/animations';
 import Typewriter from 't-writer.js';
 
 @Component({
   selector: 'app-home',
   standalone: true,
+  imports: [CommonModule],
   template: `
   <div class="tw-relative"> 
 
@@ -77,9 +79,38 @@ import Typewriter from 't-writer.js';
     </div>
     <p class="tw-text-center tw-font-medium fade-element tw-px-8">We are here to help you find the perfect puppy for you and your family.</p>
 
-    <div class="tw-flex tw-justify-center tw-my-8 fade-element">
-      <button class="tw-border-[1px] tw-border-black tw-py-4 tw-px-8 tw-rounded-full hover:tw-text-white hover:tw-bg-black">View All Puppys Available</button>
+    <div class="tw-flex tw-justify-center tw-my-16 fade-element">
+      <button class="tw-border-[1px] tw-border-black tw-py-4 tw-px-8 tw-rounded-full tw-text-white tw-bg-black">View All Available Puppys</button>
     </div>
+
+
+    <div class="lg:tw-my-32 tw-relative tw-w-screen tw-truncate">
+      <div class="tw-absolute tw-grid tw-grid-cols-[repeat(30,_20px)] tw-grid-rows-[repeat(10,_20px)] tw-gap-[10px]">
+        <div class="tw-w-[1px] tw-h-[1px] tw-bg-black tw-rounded-full" *ngFor="let dot of dots"></div>
+      </div>
+
+      <div class="tw-flex tw-mx-12 lg:tw-mx-32 tw-gap-1">
+        <div class="tw-w-[8px] tw-h-[32px] tw-bg-pink-500 tw-transform tw-skew-x-[-20deg]"></div>
+        <div class="tw-w-[8px] tw-h-[32px] tw-bg-pink-500 tw-transform tw-skew-x-[-20deg]"></div>
+      </div>
+
+      <h1 class="glitch-element tw-mx-12 lg:tw-mx-32 tw-text-3xl lg:tw-text-6xl tw-font-montserrat tw-font-bold tw-mt-8 tw-bg-red-blue-100 tw-text-left lg:tw-max-w-[40rem] tw-text-wrap">We don’t follow the pack, we lead it.</h1>
+      <p class="tw-hidden lg:tw-block tw-mx-12 lg:tw-mx-32 tw-my-8 lg:tw-text-lg tw-font-medium lg:tw-max-w-[40rem] tw-text-wrap">We don’t just care for puppies, we create unforgettable experiences. With personalized services and a passion for innovation, we’re redefining pet care one wag at a time.</p>
+
+      <div class="tw-mt-8 tw-mx-12 lg:tw-mx-32 tw-grid tw-grid-cols-1 lg:tw-grid-cols-2 tw-gap-[10px] lg:tw-w-1/3">
+        <div *ngFor="let service of services" class="">
+          <div class="tw-w-[5px] tw-h-[5px] tw-bg-[#C63A89] tw-rounded-full tw-transform tw-translate-y-[11px]"></div>
+          <p class="tw-text-center tw-font-medium tw-text-sm  tw-text-start w-transform tw-translate-x-[16px]">{{ service }}</p>
+        </div>
+      </div>
+
+      <button class="tw-mx-12 lg:tw-mx-32 tw-my-8 tw-border-[1px] tw-border-black tw-py-2 tw-px-4 tw-rounded-full hover:tw-text-white hover:tw-bg-black">All services</button>
+
+    </div>
+
+
+    
+
   `,
   styles: [`
 
@@ -102,6 +133,24 @@ import Typewriter from 't-writer.js';
         opacity: 20; /* End fully visible */
       }
     }
+
+    .glitch {
+      animation: glitch 0.1s 1;
+    }
+
+    @keyframes glitch {
+            0% {
+                transform: scaleY(1);  /* Normal size */
+            }
+            10% {
+                transform: scaleY(2.5);  /* Back to normal */
+                transform: skewX(-80deg);  /* Skew the text */
+            }
+            100% {
+                transform: scaleY(1);  /* Final normal state */
+            }
+        }
+        
   `],
 })
 
@@ -109,6 +158,7 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit() {
     this._setTypewriter();
     this._setFadeSlide();
+    this._setGlitchText();
   }
 
   private _setFadeSlide() {
@@ -142,4 +192,33 @@ export class HomeComponent implements AfterViewInit {
     }
     writer.start();
   }
+
+  dots = new Array(300);
+
+  private _setGlitchText() {
+    const element = document.querySelector('.glitch-element') as HTMLElement;
+
+    if (!element) {
+      console.warn('Glitch text element not found');
+      return;
+    }
+
+    let triggerGlitch = (glitchElement: HTMLElement) => {
+      glitchElement.classList.remove('glitch');  // Remove glitch class
+      // Force reflow/repaint to reset the animation
+      void glitchElement.offsetWidth;
+      glitchElement.classList.add('glitch');  // Add glitch class back to trigger the animation
+   }
+    // Trigger glitch every 2 seconds
+    setInterval(triggerGlitch, 2000, element);
+  }
+
+  services = [
+    'Corporate Identity & Branding',
+    'Research & Marketing Strategies',
+    'Product Design',
+    'UI/UX and Web Design',
+    'Mobile App Development',
+    'Marketing Design'
+  ]
 }
